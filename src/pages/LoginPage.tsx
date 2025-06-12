@@ -6,7 +6,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <LoginForm onSuccess={() => navigate('/')} />
+      <LoginForm />
 
       <p style={{ textAlign: 'center', marginTop: '1rem' }}>
         Don&apos;t have an account?{' '}

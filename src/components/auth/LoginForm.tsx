@@ -2,18 +2,24 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth/authActions';
 import type { AppState } from '../../types/app.types';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isLoading, error } = useSelector((state: AppState) => state.auth);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(authActions.login({ email, password }) as any);
-    onSuccess();
+
+    const res = await dispatch(authActions.login({ email, password }) as any);
+
+    if (res?.['success']) {
+      navigate('/')
+    }
   };
 
   return (

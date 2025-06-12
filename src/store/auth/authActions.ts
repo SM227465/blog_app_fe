@@ -17,14 +17,17 @@ export const authActions = {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
+        return
       }
 
       const data = await response.json();
       setTokens(data.tokens.access, data.tokens.refresh, data.user);
 
       dispatch({ type: AUTH_ACTIONS.LOGIN_SUCCESS, payload: data });
-    } catch (error) {
+      return { success: true, data };
+    } catch (error: any) {
       dispatch({ type: AUTH_ACTIONS.LOGIN_FAILURE, payload: (error as Error).message });
+      return { success: false, error: error.message };
     }
   },
 
